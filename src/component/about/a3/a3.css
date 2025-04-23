@@ -1,0 +1,80 @@
+.a1about-section {
+  background-color: #111;
+  color: white;
+  padding: 60px 20px;
+  font-family: "Cairo", sans-serif;
+}
+
+.a1about-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  max-width: 1000px;
+  margin: auto;
+  animation: fadeUp 1s ease-in-out;
+}
+
+.a1about-image img {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid red;
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+}
+
+.a1about-title {
+  font-size: 2rem;
+  color: red;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.a1about-text {
+  font-size: 1.1rem;
+  max-width: 600px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.a1about-features {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.a1about-features li {
+  margin: 10px 0;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.a1about-features .dot {
+  color: red;
+  margin-right: 10px;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 768px) {
+  .a1about-container {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 50px;
+  }
+
+  .a1about-text, .a1about-features {
+    text-align: left;
+  }
+}

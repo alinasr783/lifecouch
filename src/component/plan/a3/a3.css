@@ -1,0 +1,106 @@
+/* a3.css */
+.a3-packages {
+  background-color: #111;
+  padding: 60px 20px;
+  color: #fff;
+  font-family: 'Cairo', sans-serif;
+}
+
+.a3-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #ff1e1e;
+  margin-bottom: 40px;
+}
+
+.a3-packages-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.a3-card {
+  background: #1b1b1b;
+  border-left: 10px solid #ff1e1e;
+  border-radius: 40px 0 40px 0;
+  padding: 30px 25px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(255, 30, 30, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.a3-card:hover {
+  transform: scale(1.02);
+}
+
+.a3-card-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.a3-icon {
+  font-size: 2.5rem;
+  color: #ff1e1e;
+  margin-bottom: 10px;
+}
+
+.a3-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 5px;
+}
+
+.a3-duration {
+  color: #ccc;
+  font-size: 1rem;
+}
+
+.a3-features {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  line-height: 1.8;
+}
+
+.a3-features li {
+  position: relative;
+  padding-left: 20px;
+}
+
+.a3-features li::before {
+  content: "✔";
+  color: #ff1e1e;
+  position: absolute;
+  left: 0;
+}
+
+.a3-button {
+  display: block;
+  margin: auto;
+  margin-top: 15px;
+  padding: 10px 25px;
+  background-color: #ff1e1e;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.a3-button:hover {
+  background-color: #e60000;
+}
+
+@media (min-width: 768px) {
+  .a3-packages-container {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .a3-card {
+    width: 300px;
+  }
+}

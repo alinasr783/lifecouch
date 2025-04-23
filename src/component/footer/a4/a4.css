@@ -1,0 +1,77 @@
+.footer {
+  background-color: #0d0d0d;
+  color: #e0e0e0;
+  padding: 50px 20px 100px;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  border-top: 3px solid #ffcc00;
+}
+
+.footer-content {
+  max-width: 500px;
+  margin: auto;
+}
+
+.footer-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: palegreen;
+  margin-bottom: 15px;
+}
+
+.footer-contact {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.footer-social-buttons {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  border: none;
+  color: white;
+}
+
+.icon-svg {
+  font-size: 1.2rem;
+}
+
+.facebook-btn {
+  background-color: #1877f2;
+}
+
+.instagram-btn {
+  background-color: #e1306c;
+}
+
+.tiktok-btn {
+  background-color: #000000;
+}
+
+.social-btn:hover {
+  opacity: 0.8;
+}

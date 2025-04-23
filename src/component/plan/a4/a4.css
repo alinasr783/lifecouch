@@ -1,0 +1,99 @@
+.a4-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 50px 20px;
+  background-color: #101010;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.a4-package {
+  background-color: #212121;
+  border-radius: 10px;
+  width: 30%;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.a4-package:hover {
+  transform: translateY(-10px);
+}
+
+.a4-package-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.a4-package-icon {
+  font-size: 2rem;
+  color: #ff5e5e;
+}
+
+.a4-package-title {
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: bold;
+}
+
+.a4-package-features {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.a4-package-feature {
+  font-size: 1.1rem;
+  color: #e0e0e0;
+  margin-bottom: 10px;
+}
+
+.a4-price {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.a4-price-total {
+  font-size: 2rem;
+  color: #ff5e5e;
+  font-weight: bold;
+}
+
+.a4-price-monthly {
+  font-size: 1.2rem;
+  color: #e0e0e0;
+}
+
+.a4-join-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.2rem;
+  background-color: #ff5e5e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.a4-join-btn:hover {
+  background-color: #ff3b3b;
+}
+
+@media (max-width: 768px) {
+  .a4-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .a4-package {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+}
