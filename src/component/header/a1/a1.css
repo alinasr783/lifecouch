@@ -1,0 +1,110 @@
+.a1-header {
+  background-color: #1a1a1a;
+  padding: 16px 0;
+  margin: 10px 8px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: calc(100% - 16px);
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  border-radius: 10px;
+}
+
+.a1-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  position: relative;
+}
+
+.a1-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.a1-menu-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.a1-menu-toggle .bar {
+  height: 3px;
+  background-color: white;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.a1-side-nav {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  height: 100vh;
+  width: 250px;
+  background-color: #111;
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px;
+  padding-left: 24px;
+  gap: 20px;
+  transition: right 0.3s ease;
+  z-index: 1001;
+}
+
+.a1-side-nav.show {
+  right: 0;
+}
+
+.a1-side-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.a1-side-nav a:hover {
+  color: #0d6efd;
+}
+
+.a1-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+@media (min-width: 769px) {
+  .a1-side-nav {
+    position: static;
+    height: auto;
+    flex-direction: row;
+    padding: 0;
+    gap: 16px;
+    background-color: transparent;
+    width: auto;
+  }
+
+  .a1-overlay {
+    display: none;
+  }
+
+  .a1-menu-toggle {
+    display: none;
+  }
+}
