@@ -1,33 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./a1.css";
+import { supabase } from "../../../lib/supabase"; // تعديل المسار حسب المكان المناسب
 
 const A1Footer = () => {
+  const [footerData, setFooterData] = useState(null);
+
+  useEffect(() => {
+    const fetchFooterData = async () => {
+      const { data, error } = await supabase
+        .from("footer")
+        .select("a1")
+        .single();
+
+      if (error) {
+        console.error("Error fetching footer data:", error);
+      } else {
+        setFooterData(data.a1);
+      }
+    };
+
+    fetchFooterData();
+  }, []);
+
+  if (!footerData) return null;
+
   return (
     <footer className="footer" id="contact">
       <div className="footer-content">
-        <h2 className="footer-title">coach zeko</h2>
+        <h2 className="footer-title">{footerData.coach_name}</h2>
         <div className="footer-contact">
           <div className="footer-contact-item">
-            <span className="icon-svg">📍</span> القاهرة، مصر
+            <span className="icon-svg">📍</span> {footerData.address}
           </div>
           <div className="footer-contact-item">
-            <span className="icon-svg">📞</span> 0106<span></span>720<span></span>3240
+            <span className="icon-svg">📞</span> {footerData.phone}
           </div>
           <div className="footer-contact-item">
-            <span className="icon-svg">✉️</span> yahyahatem53@gmail.com
+            <span className="icon-svg">✉️</span> {footerData.email}
           </div>
         </div>
 
         <div className="footer-social-buttons">
-          <a href="https://www.facebook.com/yahya.hatem.94" target="_blank" rel="noopener noreferrer" className="social-btn facebook-btn">
-            <span className="icon-svg">f</span> Facebook
-          </a>
-          <a href="https://www.instagram.com/coach_zeko" target="_blank" rel="noopener noreferrer" className="social-btn instagram-btn">
-            <span className="icon-svg">i</span> Instagram
-          </a>
-          <a href="https://rb.gy/9wruhd" target="_blank" rel="noopener noreferrer" className="social-btn tiktok-btn">
-            <span className="icon-svg">t</span> TikTok
-          </a>
+          {footerData.social_links.map((link, idx) => (
+            <a 
+              key={idx} 
+              href={link.url} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={`social-btn ${link.platform.toLowerCase()}-btn`}
+            >
+              <span className="icon-svg">{link.icon}</span> {link.platform}
+            </a>
+          ))}
         </div>
       </div>
     </footer>

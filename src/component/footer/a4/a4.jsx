@@ -1,39 +1,76 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./a4.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faFacebookF, faInstagram, faTiktok } from "@fortawesome/free-brands-svg-icons";
+import { supabase } from "../../../lib/supabase";
 
 const A4Footer = () => {
+  const [footerData, setFooterData] = useState(null);
+
+  useEffect(() => {
+    const fetchFooterData = async () => {
+      const { data, error } = await supabase
+        .from("footer")
+        .select("a4")
+        .single();
+
+      if (error) {
+        console.error("Error fetching footer data:", error);
+      } else {
+        setFooterData(data.a4);
+      }
+    };
+
+    fetchFooterData();
+  }, []);
+
+  if (!footerData) return null;
+
   return (
     <footer className="footer" id="contact">
       <div className="footer-content">
-        <h2 className="footer-title">Coach Zeko</h2>
+        <h2 className="footer-title">{footerData.title}</h2>
         <div className="footer-contact">
-          <div className="footer-contact-item">
-            <FontAwesomeIcon icon={faMapMarkerAlt} className="icon-svg" />
-            Cairo, Egypt
-          </div>
-          <div className="footer-contact-item">
-            <FontAwesomeIcon icon={faPhone} className="icon-svg" />
-            0106 720 3240
-          </div>
-          <div className="footer-contact-item">
-            <FontAwesomeIcon icon={faEnvelope} className="icon-svg" />
-            yahyahatem53@gmail.com
-          </div>
+          {footerData.contact.map((item, idx) => (
+            <div key={idx} className="footer-contact-item">
+              <FontAwesomeIcon
+                icon={
+                  item.icon === "location"
+                    ? faMapMarkerAlt
+                    : item.icon === "phone"
+                    ? faPhone
+                    : faEnvelope
+                }
+                className="icon-svg"
+              />
+              {item.text}
+            </div>
+          ))}
         </div>
 
         <div className="footer-social-buttons">
-          <a href="https://www.facebook.com/yahya.hatem.94" target="_blank" rel="noopener noreferrer" className="social-btn facebook-btn">
-            <FontAwesomeIcon icon={faFacebookF} className="icon-svg" /> Facebook
-          </a>
-          <a href="https://www.instagram.com/coach_zeko" target="_blank" rel="noopener noreferrer" className="social-btn instagram-btn">
-            <FontAwesomeIcon icon={faInstagram} className="icon-svg" /> Instagram
-          </a>
-          <a href="https://rb.gy/9wruhd" target="_blank" rel="noopener noreferrer" className="social-btn tiktok-btn">
-            <FontAwesomeIcon icon={faTiktok} className="icon-svg" /> TikTok
-          </a>
+          {footerData.social_links.map((link, idx) => (
+            <a
+              key={idx}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`social-btn ${link.platform.toLowerCase()}-btn`}
+            >
+              <FontAwesomeIcon
+                icon={
+                  link.icon === "facebook"
+                    ? faFacebookF
+                    : link.icon === "instagram"
+                    ? faInstagram
+                    : faTiktok
+                }
+                className="icon-svg"
+              />{" "}
+              {link.platform}
+            </a>
+          ))}
         </div>
       </div>
     </footer>

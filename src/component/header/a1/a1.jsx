@@ -1,8 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './a1.css';
+import { supabase } from '../../../lib/supabase'; // عدّل المسار حسب مشروعك
 
 function A1Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [headerData, setHeaderData] = useState(null);
+
+  useEffect(() => {
+    const fetchHeaderData = async () => {
+      const { data, error } = await supabase
+        .from('header')
+        .select('a1')
+        .single();
+
+      if (error) {
+        console.error('Supabase error:', error);
+      } else {
+        setHeaderData(data.a1);
+      }
+    };
+
+    fetchHeaderData();
+  }, []);
+
+  if (!headerData) return null;
 
   return (
     <>
@@ -14,13 +35,13 @@ function A1Header() {
             <div className="bar"></div>
           </div>
           <nav className={`a1-side-nav ${menuOpen ? 'show' : ''}`}>
-            <a href="#" onClick={() => setMenuOpen(false)}>Home</a>
-            <a href="#" onClick={() => setMenuOpen(false)}>About</a>
-            <a href="#" onClick={() => setMenuOpen(false)}>Services</a>
-            <a href="#" onClick={() => setMenuOpen(false)}>Contact</a>
+            {headerData.links.map((link, idx) => (
+              <a key={idx} href={link.href} onClick={() => setMenuOpen(false)}>
+                {link.label}
+              </a>
+            ))}
           </nav>
-          <div className="a1-logo">MySite</div>
-
+          <div className="a1-logo">{headerData.logo}</div>
         </div>
       </header>
 

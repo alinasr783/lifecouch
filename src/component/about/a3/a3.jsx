@@ -1,22 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./a3.css";
+import { supabase } from "../../../lib/supabase"; // تأكد من المسار
 
-const A1About = () => {
+const A3About = () => {
+  const [aboutData, setAboutData] = useState(null);
+
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      const { data, error } = await supabase
+        .from('about') // اسم الجدول هنا
+        .select('a3') // العمود الذي يحتوي على البيانات المطلوبة
+        .single();
+
+      if (error) {
+        console.error("Error fetching about data:", error);
+      } else {
+        setAboutData(data.a3); // تعيين البيانات من العمود a3
+      }
+    };
+
+    fetchAboutData();
+  }, []);
+
+  if (!aboutData) return null; // إذا لم تكن البيانات موجودة بعد، لا تعرض شيئًا
+
   return (
     <section className="a1about-section" id="about">
       <div className="a1about-container">
         <div className="a1about-image">
-          <img src="https://via.placeholder.com/220x220.png?text=Coach+Zeko" alt="Coach Zeko" />
+          <img src={aboutData.image_url} alt={aboutData.coach_name} />
         </div>
         <div className="a1about-content">
-          <h2 className="a1about-title">About Coach Zeko</h2>
+          <h2 className="a1about-title">{aboutData.title}</h2>
           <p className="a1about-text">
-            With over <strong>10 years of experience</strong> in fitness training, Coach Zeko has helped hundreds of people transform their lives through discipline, dedication, and hard work.
+            {aboutData.description}
           </p>
           <ul className="a1about-features">
-            <li><span className="dot">✔</span> Certified Personal Trainer</li>
-            <li><span className="dot">✔</span> 300+ Successful Transformations</li>
-            <li><span className="dot">✔</span> Strength & Conditioning Expert</li>
+            {aboutData.features.map((feature, idx) => (
+              <li key={idx}>
+                <span className="dot">✔</span> {feature}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -24,4 +48,4 @@ const A1About = () => {
   );
 };
 
-export default A1About;
+export default A3About;

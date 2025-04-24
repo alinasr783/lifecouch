@@ -1,25 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import './a2.css';
+import { supabase } from '../../../lib/supabase'; // تعديل المسار حسب المكان المناسب
 
-function A1Header() {
+function A2Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [headerData, setHeaderData] = useState(null);
 
   useEffect(() => {
+    const fetchHeaderData = async () => {
+      const { data, error } = await supabase
+        .from('header')
+        .select('a2')
+        .single();
+
+      if (error) {
+        console.error('Error fetching header data:', error);
+      } else {
+        setHeaderData(data.a2);
+      }
+    };
+
+    fetchHeaderData();
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  if (!headerData) return null;
 
   return (
     <>
       <header className={`a1-header ${scrolled ? 'scrolled' : ''}`}>
         <div className="a1-container">
           <div className="a1-logo">
-            <span className="a1-logo-main">STRONGHOLD</span>
-            <span className="a1-logo-sub">FITNESS</span>
+            <span className="a1-logo-main">{headerData.logo_main}</span>
+            <span className="a1-logo-sub">{headerData.logo_sub}</span>
           </div>
 
           <div 
@@ -34,31 +54,13 @@ function A1Header() {
           <nav className={`a1-side-nav ${menuOpen ? 'show' : ''}`}>
             <div className="a1-nav-background"></div>
             <div className="a1-nav-content">
-              <a href="#" onClick={() => setMenuOpen(false)}>
-                <span className="a1-nav-number">01</span>
-                <span className="a1-nav-text">HOME</span>
-                <div className="a1-nav-line"></div>
-              </a>
-              <a href="#" onClick={() => setMenuOpen(false)}>
-                <span className="a1-nav-number">02</span>
-                <span className="a1-nav-text">TRAINING</span>
-                <div className="a1-nav-line"></div>
-              </a>
-              <a href="#" onClick={() => setMenuOpen(false)}>
-                <span className="a1-nav-number">03</span>
-                <span className="a1-nav-text">NUTRITION</span>
-                <div className="a1-nav-line"></div>
-              </a>
-              <a href="#" onClick={() => setMenuOpen(false)}>
-                <span className="a1-nav-number">04</span>
-                <span className="a1-nav-text">RESULTS</span>
-                <div className="a1-nav-line"></div>
-              </a>
-              <a href="#" onClick={() => setMenuOpen(false)}>
-                <span className="a1-nav-number">05</span>
-                <span className="a1-nav-text">CONTACT</span>
-                <div className="a1-nav-line"></div>
-              </a>
+              {headerData.links.map((link, idx) => (
+                <a key={idx} href={link.href} onClick={() => setMenuOpen(false)}>
+                  <span className="a1-nav-number">{link.number}</span>
+                  <span className="a1-nav-text">{link.label}</span>
+                  <div className="a1-nav-line"></div>
+                </a>
+              ))}
             </div>
           </nav>
         </div>
@@ -75,4 +77,4 @@ function A1Header() {
   );
 }
 
-export default A1Header;
+export default A2Header;
