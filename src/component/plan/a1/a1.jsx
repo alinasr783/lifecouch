@@ -1,15 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./a1.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDumbbell, faClock, faFire, faTrophy, faCrown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClock,
+  faDumbbell,
+  faFire,
+  faTrophy,
+  faCrown,
+} from "@fortawesome/free-solid-svg-icons";
+import { supabase } from "../../../lib/supabase"; // عدل المسار حسب مشروعك
 
-const PackageCard = ({ icon, title, duration, price, monthly, features, popular }) => {
+const iconsMap = {
+  dumbbell: faDumbbell,
+  fire: faFire,
+  trophy: faTrophy,
+  crown: faCrown,
+};
+
+const PackageCard = ({
+  icon,
+  title,
+  duration,
+  price,
+  monthly,
+  features,
+  popular,
+}) => {
   return (
     <div className="a1-card">
       {popular && <div className="a1-popular">POPULAR</div>}
-      <div className="a1-icon">{icon}</div>
+      <div className="a1-icon">
+        <FontAwesomeIcon icon={iconsMap[icon]} />
+      </div>
       <h3 className="a1-title">{title}</h3>
-      <p className="a1-duration"><FontAwesomeIcon icon={faClock} /> {duration}</p>
+      <p className="a1-duration">
+        <FontAwesomeIcon icon={faClock} /> {duration}
+      </p>
       <div className="a1-price">${price}</div>
       <div className="a1-monthly">${monthly}/month</div>
       <ul className="a1-features">
@@ -23,56 +49,40 @@ const PackageCard = ({ icon, title, duration, price, monthly, features, popular 
 };
 
 const A1Packages = () => {
+  const [packages, setPackages] = useState([]);
+  const [error, setError] = useState(null);  // لإدارة الأخطاء
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase.from("plan").select("a1").single();
+
+      if (error) {
+        console.error("Error fetching packages:", error);
+        setError(error);  // تخزين الخطأ في حالة إذا حدث
+      } else {
+        console.log("Fetched data:", data);  // طباعة البيانات للتأكد
+        setPackages(data?.a1?.packages || []);  // التأكد من وجود المصفوفة
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (error) {
+    return <div>Error: {error.message}</div>;  // عرض رسالة الخطأ إذا حدث
+  }
+
   return (
     <section className="a1-section">
       <h2 className="a1-heading">Elite Training Packages</h2>
       <div className="a1-cards-container">
-        <PackageCard
-          icon={<FontAwesomeIcon icon={faDumbbell} />}
-          title="Starter"
-          duration="1 Month"
-          price="99"
-          monthly="99"
-          features={[
-            "24/7 Gym Access",
-            "1 Personal Training Session",
-            "Basic Diet Plan",
-            "Locker Access",
-            "Free WiFi"
-          ]}
-        />
-        <PackageCard
-          icon={<FontAwesomeIcon icon={faFire} />}
-          title="Pro"
-          duration="3 Months"
-          price="249"
-          monthly="83"
-          features={[
-            "24/7 Gym Access",
-            "4 Personal Training Sessions",
-            "Custom Diet Plan",
-            "Body Composition Analysis",
-            "VIP Locker",
-            "Sauna Access"
-          ]}
-          popular={true}
-        />
-        <PackageCard
-          icon={<FontAwesomeIcon icon={faCrown} />}
-          title="Elite"
-          duration="6 Months"
-          price="450"
-          monthly="75"
-          features={[
-            "24/7 Gym Access + Guest Pass",
-            "10 Personal Training Sessions",
-            "Premium Custom Diet Plan",
-            "Full Body Analysis + Progress Tracking",
-            "VIP Lounge Access",
-            "Unlimited Classes",
-            "Massage Discounts"
-          ]}
-        />
+        {Array.isArray(packages) && packages.length > 0 ? (
+          packages.map((pkg, idx) => (
+            <PackageCard key={idx} {...pkg} />
+          ))
+        ) : (
+          <p>No packages available.</p> // رسالة عند عدم وجود بيانات
+        )}
       </div>
     </section>
   );

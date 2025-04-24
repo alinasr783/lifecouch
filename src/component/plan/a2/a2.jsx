@@ -1,84 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./a2.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { 
-  faDumbbell, 
-  faFire, 
-  faCrown,
-  faClock,
-  faCheck
-} from "@fortawesome/free-solid-svg-icons";
+import { faDumbbell, faFire, faCrown, faClock, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { supabase } from "../../../lib/supabase";
 
-const packages = [
-  {
-    title: "Starter",
-    duration: "1 Month",
-    icon: faDumbbell,
-    price: "99",
-    monthly: "99",
-    features: [
-      "Access to all gym equipment",
-      "1 Group class per week",
-      "Basic support",
-      "Locker access",
-      "Free WiFi"
-    ],
-  },
-  {
-    title: "Pro",
-    duration: "3 Months",
-    icon: faFire,
-    price: "249",
-    monthly: "83",
-    features: [
-      "All Starter features",
-      "3 Group classes per week",
-      "Nutrition Guide",
-      "Body composition analysis",
-      "Sauna access",
-      "Progress tracking"
-    ],
-    popular: true
-  },
-  {
-    title: "Elite",
-    duration: "6 Months",
-    icon: faCrown,
-    price: "450",
-    monthly: "75",
-    features: [
-      "All Pro features",
-      "Unlimited classes",
-      "1-on-1 Coaching session",
-      "VIP lounge access",
-      "Custom meal plan",
-      "Massage discounts",
-      "Guest passes"
-    ],
-  },
-];
+const iconMap = {
+  dumbbell: faDumbbell,
+  fire: faFire,
+  crown: faCrown,
+};
 
 const A2Packages = () => {
+  const [planData, setPlanData] = useState(null);
+
+  useEffect(() => {
+    const fetchPlanData = async () => {
+      const { data, error } = await supabase
+        .from("plan")
+        .select("a2")
+        .single();
+
+      if (error) {
+        console.error("Error fetching plan data:", error);
+      } else {
+        setPlanData(data.a2);
+      }
+    };
+
+    fetchPlanData();
+  }, []);
+
+  if (!planData) return null;
+
   return (
     <section className="a2-packages">
-      <h2 className="a2-heading">Elite Membership Plans</h2>
+      <h2 className="a2-heading">{planData.title}</h2>
       <div className="a2-cards">
-        {packages.map((pkg, index) => (
+        {planData.packages.map((pkg, index) => (
           <div className="a2-card" key={index}>
             {pkg.popular && <div className="a2-popular">Most Popular</div>}
             <div className="a2-icon">
-              <FontAwesomeIcon icon={pkg.icon} />
+              <FontAwesomeIcon icon={iconMap[pkg.icon]} />
             </div>
             <h3 className="a2-title">{pkg.title}</h3>
             <p className="a2-duration">
               <FontAwesomeIcon icon={faClock} /> {pkg.duration}
             </p>
-            <div className="a2-price">{pkg.price}</div>
+            <div className="a2-price">${pkg.price}</div>
             <div className="a2-monthly">${pkg.monthly}/month</div>
             <ul className="a2-features">
               {pkg.features.map((feature, i) => (
                 <li key={i}>
-                  <FontAwesomeIcon icon={faCheck} style={{color: "#ff2828", fontSize: "0.8rem"}} /> 
+                  <FontAwesomeIcon icon={faCheck} style={{ color: "#ff2828", fontSize: "0.8rem" }} />
                   {feature}
                 </li>
               ))}

@@ -36,11 +36,16 @@ const A3About = () => {
             {aboutData.description}
           </p>
           <ul className="a1about-features">
-            {aboutData.features.map((feature, idx) => (
-              <li key={idx}>
-                <span className="dot">✔</span> {feature}
-              </li>
-            ))}
+            {/* فحص وجود البيانات داخل features */}
+            {aboutData.features && Array.isArray(aboutData.features) && aboutData.features.length > 0 ? (
+              aboutData.features.map((feature, idx) => (
+                <li key={idx}>
+                  <span className="dot">✔</span> {feature}
+                </li>
+              ))
+            ) : (
+              <p>No features available.</p> // رسالة عند عدم وجود features
+            )}
           </ul>
         </div>
       </div>
