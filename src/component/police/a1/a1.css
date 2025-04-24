@@ -1,0 +1,52 @@
+.a1policy-section {
+  background-color: #111;
+  color: #f1f1f1;
+  padding: 60px 20px;
+  font-family: "Cairo", sans-serif;
+}
+
+.a1policy-container {
+  max-width: 800px;
+  margin: auto;
+  text-align: left;
+}
+
+.a1policy-title {
+  font-size: 2rem;
+  color: #ff4444;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  border-left: 5px solid #ff4444;
+  padding-left: 15px;
+}
+
+.a1policy-intro {
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.a1policy-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 30px;
+}
+
+.a1policy-list li {
+  background: #1a1a1a;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  border-left: 4px solid #ff4444;
+  border-radius: 6px;
+  line-height: 1.6;
+}
+
+.a1policy-note {
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+.a1policy-note a {
+  color: #ff4444;
+  text-decoration: underline;
+}
