@@ -35,7 +35,7 @@ const DDB = () => {
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
     if (!token) {
-      navigate('/login');
+      navigate('/d-login');
     }
 
     fetchUsers();
@@ -61,7 +61,7 @@ const DDB = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
-    navigate('/login');
+    navigate('/d-login');
   };
 
   const handleUserClick = (user) => {

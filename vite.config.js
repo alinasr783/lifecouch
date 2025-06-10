@@ -39,7 +39,7 @@ export default defineConfig({
   ],
   server: {
     allowedHosts: [
-      'fa1f6c44-b467-42e1-8137-cb1d920a31a3-00-1zyy8enhapl0w.worf.replit.dev'
+      'd0fba727-bbec-4063-a9aa-d4956d5a78e0-00-i9d0fqc6akge.worf.replit.dev'
     ]
   }
 })

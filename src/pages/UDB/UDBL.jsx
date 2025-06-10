@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiLock, FiMail, FiLogIn } from 'react-icons/fi';
-import './DDBL.css';
+import './UDBL.css';
 
-const DDBL = () => {
+const UDBL = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,7 +13,7 @@ const DDBL = () => {
 
   // Admin credentials (in a real app, these would come from a secure backend)
   const admins = [
-    { UC: "1", email: "alinasreldin783@gmail.com", password: "Alinasr89#" },
+    { UC: "1", email: "alinasreldin784@gmail.com", password: "Alinasr89#" }
   ];
 
   const handleLogin = (e) => {
@@ -32,7 +32,7 @@ const DDBL = () => {
           // Generate a simple token (in a real app, use JWT from your backend)
           const token = btoa(`${email}:${Date.now()}`);
           localStorage.setItem('adminToken', token);
-          navigate('/direct-dashboard');
+          navigate('/user-dashboard');
         } else {
           setError('Invalid email or password');
         }
@@ -119,4 +119,4 @@ const DDBL = () => {
   );
 };
 
-export default DDBL;
+export default UDBL;
