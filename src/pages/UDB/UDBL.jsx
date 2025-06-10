@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { supabase } from '../../lib/database/supabase';
 import { FiLock, FiMail, FiLogIn } from 'react-icons/fi';
 import './UDBL.css';
 
@@ -11,37 +12,47 @@ const UDBL = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Admin credentials (in a real app, these would come from a secure backend)
-  const admins = [
-    { UC: "1", email: "alinasreldin784@gmail.com", password: "Alinasr89#" }
-  ];
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    // Simulate API call delay
-    setTimeout(() => {
-      try {
-        const admin = admins.find(admin => 
-          admin.email === email && admin.password === password
-        );
+    try {
+      // جلب البيانات من جدول UDB
+      const { data, error } = await supabase
+        .from('UDB')
+        .select('admins');
 
-        if (admin) {
-          // Generate a simple token (in a real app, use JWT from your backend)
-          const token = btoa(`${email}:${Date.now()}`);
-          localStorage.setItem('adminToken', token);
-          navigate('/user-dashboard');
-        } else {
-          setError('Invalid email or password');
-        }
-      } catch (err) {
-        setError('An error occurred during login');
-      } finally {
-        setLoading(false);
+      if (error) {
+        throw error;
       }
-    }, 800);
+
+      if (!data || data.length === 0) {
+        setError('Invalid email or password');
+        setLoading(false);
+        return;
+      }
+
+      // البحث عن المستخدم المطابق في مصفوفة admins
+      const adminFound = data.some(entry => 
+        entry.admins?.some(admin => 
+          admin.email === email && admin.password === password
+        )
+      );
+
+      if (adminFound) {
+        const token = btoa(`${email}:${Date.now()}`);
+        localStorage.setItem('adminToken', token);
+        navigate('/user-dashboard');
+      } else {
+        setError('Invalid email or password');
+      }
+    } catch (err) {
+      setError(err.message || 'An error occurred during login');
+      console.error('Login error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
