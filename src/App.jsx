@@ -11,6 +11,7 @@ function App() {
         <Route path="/d-login" element={<DDBL />} />
         <Route path="/user-dashboard" element={<UDB />} />
         <Route path="/u-login" element={<UDBL />} />
+        <Route path="/" element={<UDBL />} />
       </Routes>
     </>
   )
